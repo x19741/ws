@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.SysLogMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.SysLog" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="CODE_NAME" property="codeName" jdbcType="VARCHAR" />
+    <result column="LOG_NAME" property="logName" jdbcType="VARCHAR" />
+    <result column="LOG_TYPE" property="logType" jdbcType="VARCHAR" />
+    <result column="CLASS_NAME" property="className" jdbcType="VARCHAR" />
+    <result column="METHOD_NAME" property="methodName" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="IP" property="ip" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CODE_NAME, LOG_NAME, LOG_TYPE, CLASS_NAME, METHOD_NAME, CONTENT, USER_ID, IP,
+    CREATE_TIME, USER_NAME
+  </sql>
+  <select id="selectListByPage" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from SYS_LOG
+    <where>
+      <if test="codeName !=null and codeName != ''">
+         CODE_NAME =#{codeName}
+      </if>
+      <if test="logName !=null and logName != ''">
+        and LOG_NAME  like  CONCAT('%', #{logName},'%')
+      </if>
+      <if test="userName !=null and userName != ''">
+        and USER_NAME  like  CONCAT('%', #{userName},'%')
+      </if>
+      <if test="ip !=null and ip != ''">
+        and IP  like  CONCAT('%', #{ip},'%')
+      </if>
+      <if test="createTime !=null">
+        and to_days(CREATE_TIME) = to_days(#{createTime})
+      </if>
+    </where>
+    ORDER BY CREATE_TIME DESC
+  </select>
+</mapper>

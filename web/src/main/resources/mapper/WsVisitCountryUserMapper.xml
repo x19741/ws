@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsVisitCountryUserMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.WsVisitCountryUser" >
+    <constructor >
+      <idArg column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="STATUS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="MAINFORMID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="JOB_CODE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="USER_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SEX" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="BIRTHDAY" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="USERNAME_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="START_ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CENSUS_ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="FITNESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PHONE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PHONE_CALL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EMAIL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UNIT_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="POLITICS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="DEPT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="DEPT_LEVEL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="MARRIED" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="IS_SECRET" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GROUP_DEPT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="START_ADDRESS_DATE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="USER_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, STATUS, MAINFORMID, JOB_CODE, 
+    USER_NAME, SEX, BIRTHDAY, USERNAME_ID, START_ADDRESS, CENSUS_ADDRESS, FITNESS, PHONE, 
+    PHONE_CALL, EMAIL, UNIT_NAME, POLITICS, DEPT, DEPT_LEVEL, MARRIED, IS_SECRET, GROUP_DEPT, 
+    START_ADDRESS_DATE,USER_ID
+  </sql>
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    FROM WS_VISIT_COUNTRY_USER
+    <where>
+      <if test="mainformid!=null and mainformid!=''">
+        MAINFORMID =#{mainformid}
+      </if>
+    </where>
+    order by ID
+  </select>
+</mapper>

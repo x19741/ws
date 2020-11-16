@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsWzFireContinueFalseMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.WsWzFireContinueFalse" >
+    <constructor >
+      <arg column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="MAINFORMID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ORDER_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="USERNAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CONTENT" jdbcType="CLOB" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_BY, CREATE_DATE,UPDATE_BY, UPDATE_DATE, MAINFORMID,
+      ORDER_ID, USERNAME, CONTENT
+  </sql>
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    FROM WS_WZ_FIRE_CONTINUE_FALSE
+    <where>
+        <if test="mainformid!=null and mainformid!=''">
+          MAINFORMID =#{mainformid}
+        </if>
+
+    </where>
+    order by ID
+  </select>
+</mapper>

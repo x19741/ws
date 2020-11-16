@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.SysRoleMapper">
+    <resultMap id="BaseResultMap" type="spring.entity.SysRole">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="role_name" property="roleName" jdbcType="VARCHAR"/>
+        <result column="role_code" property="roleCode" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="create_by" property="createBy" jdbcType="VARCHAR"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_by" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, ROLE_NAME,ROLE_CODE, REMARK, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE
+  </sql>
+
+    <select id="selectListByPage" parameterType="spring.entity.SysRole" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM SYS_ROLE
+    </select>
+
+    <select id="selectListByPageForm" parameterType="spring.entity.SysRole" resultMap="BaseResultMap">
+        SELECT
+  A.ID
+  , A.ROLE_NAME
+  , A.ROLE_CODE
+  , A.REMARK
+  , A3.ACCOUNTNAME CREATE_BY
+  , A.CREATE_DATE
+  , A3.ACCOUNTNAME UPDATE_BY
+  , A.UPDATE_DATE
+FROM
+  SYS_ROLE A
+LEFT JOIN SYS_USER A2 ON A2.ID=A.CREATE_BY
+LEFT JOIN SYS_USER A3 ON A3.ID=A.UPDATE_BY
+    </select>
+
+    <select id="selectListByPage2" parameterType="spring.entity.SysRole" resultMap="BaseResultMap">
+    SELECT A.* FROM SYS_ROLE A
+    JOIN SYS_ROLE_USER A1 ON A1.ROLE_ID=A.ID
+    <where>
+        <if test="userId!=null and userId!=''">
+            A1.USER_ID=#{userId}
+        </if>
+        <if test="userId==null or userId==''">
+            A1.USER_ID IS NULL
+        </if>
+    </where>
+    </select>
+</mapper>

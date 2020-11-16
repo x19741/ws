@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsWzLectureEndMapper">
+    <resultMap id="BaseResultMap" type="spring.entity.WsWzLectureEnd">
+        <constructor>
+            <idArg column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="STATUS" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="MAINFORMID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="DEAN_NAME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="PRO_DEAN" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="START_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="PRO_USER" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="DEPT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="PHONE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="PHONE_CALL" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="EMAIL" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="FAX" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="AMOUNT_FUND" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="PRO_NAME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="PRO_DEPT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="SUBJECT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="OPINION" jdbcType="CLOB" javaType="java.lang.String"/>
+            <arg column="EXPERT_NAME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="EXPERT_NAME_ENGLISH" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="EXPERT_SEX" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="EXPERT_DAY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="EXPERT_COUNTRY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="EXPERT_DEPT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="EXPERT_SUBJECT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="EXPERT_UNIT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="EXPERT_SUM_DAY" javaType="java.math.BigDecimal" jdbcType="DECIMAL"/>
+            <arg column="EXPERT_PHONE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="EXPERT_CODE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="EXPERT_CONTENT" jdbcType="CLOB" javaType="java.lang.String"/>
+            <arg column="ICON" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, CREATE_BY, CREATE_DATE,UPDATE_BY, UPDATE_DATE, STATUS,MAINFORMID, DEAN_NAME, PRO_DEAN,START_DATE, PRO_USER, DEPT,
+      PHONE, PHONE_CALL, EMAIL,FAX, AMOUNT_FUND, PRO_NAME,PRO_DEPT, SUBJECT,OPINION,
+      EXPERT_NAME,EXPERT_NAME_ENGLISH, EXPERT_SEX, EXPERT_DAY,
+      EXPERT_COUNTRY, EXPERT_DEPT, EXPERT_SUBJECT,EXPERT_UNIT, EXPERT_SUM_DAY, EXPERT_PHONE,EXPERT_CODE,EXPERT_CONTENT, ICON
+  </sql>
+    <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM WS_WZ_LECTURE_END
+        <where>
+            <if test="mainformid!=null and mainformid!=''">
+                MAINFORMID =#{mainformid}
+            </if>
+        </where>
+        order by ID
+    </select>
+</mapper>

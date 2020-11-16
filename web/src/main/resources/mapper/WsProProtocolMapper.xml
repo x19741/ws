@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsProProtocolMapper">
+    <resultMap id="BaseResultMap" type="spring.entity.WsProProtocol">
+        <constructor>
+            <arg column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="STATUS" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="APPLY_UNIT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="APPLY_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="PROTOCOL_TYPE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="PROTOCOL_NAME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="SCHOOL" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="IS_SIGN" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="SIGN_TYPE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="PROTOCOL_NUM" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="APPLY_USER" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="PHONE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="CONTENT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="DEAN" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="DEAN_DATE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="SUM_SCHOOL_" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="SUM_SCHOOL_DATE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, CREATE_BY, CREATE_DATE,UPDATE_BY, UPDATE_DATE, STATUS,APPLY_UNIT, APPLY_DATE, PROTOCOL_TYPE,
+      PROTOCOL_NAME, SCHOOL, IS_SIGN,SIGN_TYPE, PROTOCOL_NUM, APPLY_USER,PHONE, CONTENT, DEAN,
+      DEAN_DATE, SUM_SCHOOL_, SUM_SCHOOL_DATE
+  </sql>
+    <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM WS_PRO_PROTOCOL
+        <where>
+            <if test="applyUnit!=null and applyUnit!=''">
+                APPLY_UNIT LIKE concat( concat( '%',#{applyUnit} ),'%' )
+            </if>
+            <if test="school!=null and school!=''">
+                AND SCHOOL LIKE concat( concat( '%',#{school} ),'%' )
+            </if>
+            <if test="applyUser!=null and applyUser!=''">
+                AND APPLY_USER LIKE concat( concat( '%',#{applyUser} ),'%' )
+            </if>
+            <if test="applyDateStart!=null">
+                AND APPLY_DATE &gt;= to_date(#{applyDateStart},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+            <if test="applyDateEnd!=null">
+                AND APPLY_DATE &lt;= to_date(#{applyDateEnd},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+        </where>
+        ORDER by ID
+    </select>
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.SysComFormFieldMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.SysComFormField" >
+    <id column="UUID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ENNAME" property="enname" jdbcType="VARCHAR" />
+    <result column="FORMID" property="formid" jdbcType="VARCHAR" />
+    <result column="ORDERID" property="orderid" jdbcType="INTEGER" />
+    <result column="MATECHEXT" property="matechext" jdbcType="VARCHAR" />
+    <result column="PROPERTY" property="property" jdbcType="VARCHAR" />
+    <result column="PARENTFORMID" property="parentformid" jdbcType="VARCHAR" />
+    <result column="ORDERBY" property="orderby" jdbcType="VARCHAR" />
+    <result column="MODELFIELD" property="modelfield" jdbcType="VARCHAR" />
+    <result column="MODELTABLE" property="modeltable" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, ENNAME, FORMID, ORDERID, MATECHEXT, PROPERTY, PARENTFORMID, ORDERBY,
+    MODELFIELD, MODELTABLE
+  </sql>
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from SYS_COM_FORM_FIELD
+
+  </select>
+</mapper>

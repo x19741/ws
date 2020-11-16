@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsExchangeActivitiReturnMapper">
+    <resultMap id="BaseResultMap" type="spring.entity.WsExchangeActivitiReturn">
+        <constructor>
+            <idArg column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="STATUS" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="MAINFORMID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="GROUP_NAME" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="GROUP_USER_ENGLISH" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="GROUP_POST" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="GROUP_NUM" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="GROUP_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="GROUP_USER" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="GROUP_PHONE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="UNIT_LEAD" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="UNIT_POST" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="UNIT_USER" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="UNIT_PHONE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="PURPOSE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="RESULT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="CONTENT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="UNIT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="START_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, STATUS, MAINFORMID, GROUP_NAME,
+    GROUP_USER_ENGLISH, GROUP_POST, GROUP_NUM, GROUP_DATE, GROUP_USER, GROUP_PHONE, UNIT_LEAD,
+    UNIT_POST, UNIT_USER, UNIT_PHONE, PURPOSE, RESULT, CONTENT, UNIT, START_DATE
+  </sql>
+    <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM WS_EXCHANGE_ACTIVITI_RETURN
+        <where>
+          <if test="mainformid!=null and mainformid!=''">
+              and MAINFORMID=#{mainformid}
+          </if>
+
+        </where>
+    </select>
+</mapper>

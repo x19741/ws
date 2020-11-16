@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsWzFireMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.WsWzFire" >
+    <constructor >
+      <arg column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="STATUS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="APPLY_UNIT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="APPLY_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="COUNTRY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="TEACHER_CODE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="START_END_DATE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CONTENT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SCHOOL_AMOUNT" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="AGE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UNIT_LEVEL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UNIT_CHARACTER" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UNIT_RETRUN" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UNIT_OPINION" jdbcType="OTHER" javaType="java.lang.Object" />
+      <arg column="UNIT_USER" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UNIT_DATE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SCHOOL_OPINION" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SCHOOL_USER" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SCHOOL2_OPINION" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SCHOOL2_USER" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SCHOOL3_OPINION" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SCHOOL3_USER" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="JOP_RETURN" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_BY, CREATE_DATE,
+      UPDATE_BY, UPDATE_DATE, STATUS,
+      APPLY_UNIT, APPLY_DATE, NAME,
+      COUNTRY, TEACHER_CODE, START_END_DATE,
+      CONTENT, SCHOOL_AMOUNT, AGE,
+      UNIT_LEVEL, UNIT_CHARACTER, UNIT_RETRUN,
+      UNIT_OPINION, UNIT_USER, UNIT_DATE,
+      SCHOOL_OPINION, SCHOOL_USER, SCHOOL2_OPINION,
+      SCHOOL2_USER, SCHOOL3_OPINION, SCHOOL3_USER,
+      JOP_RETURN
+  </sql>
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    FROM WS_WZ_FIRE
+    <where>
+
+      <if test="applyUnit!=null and applyUnit!=''">
+        APPLY_UNIT LIKE concat( concat( '%',#{applyUnit} ),'%' )
+      </if>
+      <if test="age!=null and age!=''">
+        AND AGE LIKE concat( concat( '%',#{age} ),'%' )
+      </if>
+      <if test="name!=null and name!=''">
+        AND NAME LIKE concat( concat( '%',#{name} ),'%' )
+      </if>
+      <if test="applyDateStart!=null">
+        AND APPLY_DATE &gt;= to_date(#{applyDateStart},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+      <if test="applyDateEnd!=null">
+        AND APPLY_DATE &lt;= to_date(#{applyDateEnd},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+    </where>
+    ORDER by ID
+  </select>
+</mapper>

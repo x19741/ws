@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.mapper.SysActivitiTaskMapper">
+    <resultMap id="BaseResultMap" type="spring.entity.SysActivitiTask">
+        <constructor>
+            <idArg column="ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CREATE_BY" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CREATE_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="UPDATE_BY" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="UPDATE_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="ORDER_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="SERIAL_NUMBER" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="URGENCY_DEGREE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="TASK_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="BUSINESS_KEY" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="DISPOSE_COLLEGE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="DISPOSE_DEPT" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="DISPOSE_ROLE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="DISPOSE_UNIT" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="DISPOSE_BY1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="DISPOSE_USER_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="DISPOSE_USER_NAME" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="AGENCY_DISPOSE_USER_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="AGENCY_DISPOSE_USER_NAME" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="ACTIVITI_NAME" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="ACTIVITI_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="ACTIVITI_PROCESS" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="ACTIVITI_TYPE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="ACTIVITI_STATUS" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="INITIATE_USER_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="INITIATE_USER_NAME" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="INITIATE_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="LAST_DISPOSE_USER_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="LAST_DISPOSE_USER_NAME" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CC_COLLEGE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CC_DEPT" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CC_ROLE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CC_UNIT" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CC_BY1" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CC_USER_ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CC_USER_NAME" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CONTENT" javaType="java.lang.String" jdbcType="CLOB"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, ORDER_ID, SERIAL_NUMBER, URGENCY_DEGREE,
+    TASK_ID, BUSINESS_KEY, DISPOSE_COLLEGE, DISPOSE_DEPT, DISPOSE_ROLE, DISPOSE_UNIT,
+    DISPOSE_BY1, DISPOSE_USER_ID, DISPOSE_USER_NAME, AGENCY_DISPOSE_USER_ID, AGENCY_DISPOSE_USER_NAME,
+    ACTIVITI_NAME, ACTIVITI_ID, ACTIVITI_PROCESS, ACTIVITI_TYPE, ACTIVITI_STATUS, INITIATE_USER_ID,
+    INITIATE_USER_NAME, INITIATE_DATE, LAST_DISPOSE_USER_ID, LAST_DISPOSE_USER_NAME,
+    CC_COLLEGE, CC_DEPT, CC_ROLE, CC_UNIT, CC_BY1, CC_USER_ID, CC_USER_NAME,CONTENT
+  </sql>
+    <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM SYS_ACTIVITI_TASK
+        <where>
+            <if test="businessKey!=null and businessKey!=''">
+                BUSINESS_KEY =#{businessKey}
+            </if>
+
+            <if test="activitiStatus!=null and activitiStatus!=''">
+                and ACTIVITI_STATUS =#{activitiStatus}
+            </if>
+            <if test="taskId!=null and taskId!=''">
+                and TASK_ID =#{taskId}
+            </if>
+            <!--
+             <if test="target!=null and target!=''">
+               AND TARGET LIKE concat( concat( '%',#{target} ),'%' )
+             </if>
+             <if test="startDate!=null">
+               AND START_DATE &gt;= to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss')
+             </if>
+             <if test="endDate!=null">
+               AND END_DATE &lt;= to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+             </if>-->
+        </where>
+        ORDER by ID
+    </select>
+    <select id="getBacklog" parameterType="java.lang.String" resultMap="BaseResultMap">
+    -- 待办
+    select a.* from SYS_ACTIVITI_TASK a
+    join sys_user a1 on (a.DISPOSE_USER_ID is null or a.DISPOSE_USER_ID ='' or a1.ID like concat( concat( '%',a.DISPOSE_USER_ID ),'%' ))-- 用户id
+    and (a.DISPOSE_DEPT is null or a.DISPOSE_DEPT ='' or a1.DEPARTMENT_ID like concat( concat( '%',a.DISPOSE_DEPT ),'%' ))-- 部门
+    and (a.DISPOSE_COLLEGE is null or a.DISPOSE_COLLEGE ='' or a1.COLLEGE_ID like concat( concat( '%',a.DISPOSE_COLLEGE ),'%' ))-- 学院
+    left join SYS_ROLE_USER a2  on 1=1
+    where   (a.DISPOSE_ROLE is null or a.DISPOSE_ROLE =''  or (a2.USER_ID = A1.ID and a2.role_id in (''))  )-- 角色
+    and a.ACTIVITI_STATUS='003'
+    and a1.ID =#{disposeUserId}
+order by a.id
+  </select>
+    <select id="getUnderway" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from SYS_ACTIVITI_TASK
+    where id in (
+        select max(a.id) id from SYS_ACTIVITI_TASK a
+        join sys_user a1 on (a.DISPOSE_USER_ID is null or a.DISPOSE_USER_ID ='' or a1.ID like concat( concat( '%',a.DISPOSE_USER_ID ),'%' ))-- 用户id
+        and (a.DISPOSE_DEPT is null or a.DISPOSE_DEPT ='' or a1.DEPARTMENT_ID like concat( concat( '%',a.DISPOSE_DEPT ),'%' ))-- 部门
+        and (a.DISPOSE_COLLEGE is null or a.DISPOSE_COLLEGE ='' or a1.COLLEGE_ID like concat( concat( '%',a.DISPOSE_COLLEGE ),'%' ))-- 学院
+        left join SYS_ROLE_USER a2  on 1=1
+        where   (a.DISPOSE_ROLE is null or a.DISPOSE_ROLE =''  or (a2.USER_ID = A1.ID and a2.role_id in (''))  )-- 角色
+        and a.ACTIVITI_STATUS='005'
+        and a1.ID =#{disposeUserId}
+        group by a.business_key
+    )
+    order by id
+  </select>
+    <select id="getFinished" parameterType="java.lang.String" resultMap="BaseResultMap">
+    -- 已完成
+select * from SYS_ACTIVITI_TASK where id in (
+select max(id) id from SYS_ACTIVITI_TASK
+    where business_key in (
+        select business_key -- max(a.id) id
+				from SYS_ACTIVITI_TASK a
+        join sys_user a1 on (a.DISPOSE_USER_ID is null or a.DISPOSE_USER_ID ='' or a1.ID like concat( concat( '%',a.DISPOSE_USER_ID ),'%' ))-- 用户id
+        and (a.DISPOSE_DEPT is null or a.DISPOSE_DEPT ='' or a1.DEPARTMENT_ID like concat( concat( '%',a.DISPOSE_DEPT ),'%' ))-- 部门
+        and (a.DISPOSE_COLLEGE is null or a.DISPOSE_COLLEGE ='' or a1.COLLEGE_ID like concat( concat( '%',a.DISPOSE_COLLEGE ),'%' ))-- 学院
+        left join SYS_ROLE_USER a2  on 1=1
+        where   (a.DISPOSE_ROLE is null or a.DISPOSE_ROLE =''  or (a2.USER_ID = A1.ID and a2.role_id in (''))  )-- 角色
+        -- and a.ACTIVITI_STATUS='审结'
+        and a1.ID =#{disposeUserId}
+        group by a.business_key
+    )
+group by 	business_key
+)
+and ACTIVITI_STATUS='005'
+order by id
+  </select>
+    <select id="getCarbonCopy" parameterType="java.lang.String" resultMap="BaseResultMap">
+    -- 抄送
+    select * from SYS_ACTIVITI_TASK
+    where id in (
+        select max(a.id) id from SYS_ACTIVITI_TASK a
+        join sys_user a1 on (a.CC_USER_ID is null or a.CC_USER_ID ='' or a1.ID like concat( concat( '%',a.CC_USER_ID ),'%' ))-- 用户id
+        and (a.CC_DEPT is null or a.CC_DEPT ='' or a1.DEPARTMENT_ID like concat( concat( '%',a.CC_DEPT ),'%' ))-- 部门
+        and (a.CC_COLLEGE is null or a.CC_COLLEGE ='' or a1.COLLEGE_ID like concat( concat( '%',a.CC_COLLEGE ),'%' ))-- 学院
+        left join SYS_ROLE_USER a2  on 1=1
+        where   (a.CC_ROLE is null or a.CC_ROLE =''  or (a2.USER_ID = A1.ID and a2.role_id in (''))  )-- 角色
+        -- and a.ACTIVITI_STATUS='审结'
+        and a1.ID =#{disposeUserId}
+        group by a.business_key
+    )
+    order by id
+  </select>
+    <select id="getInitiate" parameterType="java.lang.String" resultMap="BaseResultMap">
+    -- 我发起的
+    select * from SYS_ACTIVITI_TASK
+    where id in (
+        select max(a.id) id from SYS_ACTIVITI_TASK a
+        join sys_user a1 on a1.id =a.INITIATE_USER_ID
+        and a1.ID =#{disposeUserId}
+        group by a.business_key
+    )
+    order by id
+  </select>
+
+    <select id="getThisProcess" parameterType="java.lang.String" resultMap="BaseResultMap">
+    -- 查询最新的节点
+    select a.* from SYS_ACTIVITI_TASK a
+WHERE a.task_id=(select max(TASK_ID) TASK_ID FROM  SYS_ACTIVITI_TASK WHERE BUSINESS_KEY =#{businessKey})
+ORDER BY a.id
+  </select>
+</mapper>

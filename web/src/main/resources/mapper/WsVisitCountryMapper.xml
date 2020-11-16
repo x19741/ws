@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsVisitCountryMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.WsVisitCountry" >
+    <constructor >
+      <idArg column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="STATUS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SERIAL_NUMBER" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="URGENCY_DEGREE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="USERNAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SEX" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="BIRTHDAY" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="USERNAME_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="START_ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CENSUS_ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="FITNESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UNIT_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="POLITICS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="DEPT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="DEPT_LEVEL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="MARRIED" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="MARRIED_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="HOME_ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PHONE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PHONE_CALL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PHONE_CALL_HOME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EMAIL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="THING" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="FUND" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="START_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="START_DAY" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="START_FUND_CONTENT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GROUP_TITLE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GROUP_TYPE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GROUP_NATURE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GROUP_TASK" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GROUP_THING" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GROUP_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="GROUP_START_DAY" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="GROUP_START_FUND_CONTENT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GROUP_PRO_FUND" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GROUP_INVITE_UNIT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GROUP_INVITE_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GROUP_INVITE_PHONE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="AMOUNT" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+      <arg column="AMOUNT_USD" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, STATUS, SERIAL_NUMBER, URGENCY_DEGREE, 
+    USERNAME, SEX, BIRTHDAY, USERNAME_ID, START_ADDRESS, CENSUS_ADDRESS, FITNESS, UNIT_NAME, 
+    POLITICS, DEPT, DEPT_LEVEL, MARRIED, MARRIED_DATE, HOME_ADDRESS, PHONE, PHONE_CALL, 
+    PHONE_CALL_HOME, EMAIL, THING, FUND, START_DATE, START_DAY, START_FUND_CONTENT, GROUP_TITLE, 
+    GROUP_TYPE, GROUP_NATURE, GROUP_TASK, GROUP_THING, GROUP_DATE, GROUP_START_DAY, GROUP_START_FUND_CONTENT, 
+    GROUP_PRO_FUND, GROUP_INVITE_UNIT, GROUP_INVITE_NAME, GROUP_INVITE_PHONE, AMOUNT, 
+    AMOUNT_USD
+  </sql>
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    FROM WS_VISIT_COUNTRY
+    <where>
+      <!--<if test="currency!=null and currency!=''">
+        and CURRENCY LIKE concat( concat( '%',#{currency} ),'%' )
+      </if>
+      <if test="country!=null and country!=''">
+        and COUNTRY LIKE concat( concat( '%',#{country} ),'%' )
+      </if>
+      <if test="continent!=null and continent!=''">
+        and CONTINENT LIKE concat( concat( '%',#{continent} ),'%' )
+      </if>-->
+    </where>
+    order by id
+  </select>
+</mapper>

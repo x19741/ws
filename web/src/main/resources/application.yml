@@ -1,0 +1,67 @@
+server:
+  port: 8081
+  servlet:
+    context-path: /
+    #ssl:
+    #key-store: classpath:tomcat.keystore
+    #key-store-password: 123456
+    #key-alias: tomcat
+    #key-store-type: JKS
+#server.ssl.key-store: classpath:tomcat.keystore
+#server.ssl.key-store-password: 123456
+#server.ssl.key-store-type: JKS
+#server.ssl.key-alias: tomcat
+
+#server.ssl.key-store: classpath:keystore.jks
+#server.ssl.key-store-password: kurento
+#server.ssl.key-store-type: JKS
+#server.ssl.key-alias: kurento-selfsigned
+
+
+spring:
+  application:
+    name: ws
+
+  devtools.restart.enabled: true
+  datasource:
+   driverClassName: oracle.jdbc.driver.OracleDriver
+   #url: jdbc:oracle:thin:@//193.112.76.40:1521/XE
+   url: jdbc:oracle:thin:@//192.168.0.110:1521/XE
+   username: develop
+   password: jinghanv5
+  #datasource.url: jdbc:mysql://localhost:3306/cz?useUnicode=true&characterEncoding=utf-8&useSSL=false&&zeroDateTimeBehavior=convertToNull
+  #datasource.username: xoops_root
+  #datasource.password: neikong@2018#$
+  resources:
+    static-locations: classpath:/static/
+  ## MULTIPART (MultipartProperties)
+
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
+  activiti:
+    check-process-definitions: false
+    database-schema-update: false
+
+  #mybatis:
+  #type-aliases-package: com.gw.entity
+  #mapper-locations: classpath:mapper/*.xml
+mybatis:
+  type-aliases-package: spring.entity
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+mapper:
+  mappers: spring.mappers.Mapper
+  identity: MYSQL
+
+file:
+  upload-dir: /var/data/uploads
+
+
+

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.mapper.WsWzMaintainMapper">
+    <resultMap id="BaseResultMap" type="spring.entity.WsWzMaintain">
+        <constructor>
+            <idArg column="ID" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CREATE_BY" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="CREATE_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="UPDATE_BY" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="UPDATE_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="STATUS" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="APPLY_USER" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="ADDRESS" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="PHONE" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="START_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="END_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+            <arg column="CONTENT" javaType="java.lang.String" jdbcType="VARCHAR"/>
+            <arg column="PHOTO" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, STATUS, APPLY_USER, ADDRESS, 
+    PHONE, START_DATE, END_DATE, CONTENT, PHOTO
+  </sql>
+    <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM WS_WZ_MAINTAIN
+        <where>
+            <if test="applyUser!=null and applyUser!=''">
+                APPLY_USER LIKE concat( concat( '%',#{applyUser} ),'%' )
+            </if>
+            <if test="phone!=null and phone!=''">
+                PHONE LIKE concat( concat( '%',#{phone} ),'%' )
+            </if>
+            <if test="startDate!=null">
+                AND START_DATE &gt;= to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+            <if test="endDate!=null">
+                AND END_DATE &lt;= to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+        </where>
+        ORDER by ID
+    </select>
+</mapper>

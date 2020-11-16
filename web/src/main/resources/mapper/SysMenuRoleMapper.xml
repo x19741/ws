@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.SysMenuRoleMapper">
+    <resultMap id="BaseResultMap" type="spring.entity.SysMenuRole">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="role_id" property="roleId" jdbcType="VARCHAR"/>
+        <result column="menu_id" property="menuId" jdbcType="VARCHAR"/>
+
+        <result column="menu_name" property="menuName" jdbcType="VARCHAR"/>
+        <result column="parent_id" property="parentId" jdbcType="VARCHAR"/>
+        <result column="is_action" property="isAction" jdbcType="VARCHAR"/>
+
+
+
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, ROLE_ID, MENU_ID
+  </sql>
+    <select id="selectListByPage" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT A3.ID,A2.ID ROLE_ID ,A1.ID MENU_ID ,A1.MENU_NAME,A1.PARENT_ID
+        ,CASE WHEN A3.ID IS NULL THEN '1' ELSE '0' END IS_ACTION
+        FROM SYS_MENU A1
+        JOIN SYS_ROLE A2 ON 1=1
+        LEFT JOIN SYS_MENU_ROLE A3 ON A3.MENU_ID=A1.ID AND A3.ROLE_ID=A2.ID
+        <where>
+            <if test="parentId!=null and parentId !='' ">
+                AND A1.PARENT_ID=#{parentId}
+            </if>
+            <if test="roleId!=null and roleId !='' ">
+                and A2.ID=#{roleId}
+            </if>
+            <if test="menuId!=null and menuId !='' ">
+                AND A1.ID=#{menuId}
+            </if>
+        </where>
+        ORDER BY ORDER_NUM
+    </select>
+</mapper>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.SysComFormMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.SysComForm" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="ENNAME" property="enname" jdbcType="VARCHAR" />
+    <result column="CLASSNAME" property="classname" jdbcType="VARCHAR" />
+    <result column="TABLENAME" property="tablename" jdbcType="VARCHAR" />
+    <result column="TABLETYPE" property="tabletype" jdbcType="VARCHAR" />
+    <result column="EXTCLASS" property="extclass" jdbcType="VARCHAR" />
+    <result column="UDATE" property="udate" jdbcType="VARCHAR" />
+    <result column="UNAME" property="uname" jdbcType="VARCHAR" />
+    <result column="SELECTTYPE" property="selecttype" jdbcType="VARCHAR" />
+    <result column="PROPERTY" property="property" jdbcType="VARCHAR" />
+    <result column="PARENTFORMID" property="parentformid" jdbcType="VARCHAR" />
+    <result column="FORM_TYPE" property="formType" jdbcType="VARCHAR" />
+    <result column="REFERFORM" property="referform" jdbcType="VARCHAR" />
+    <result column="HINTSHOWTYPE" property="hintshowtype" jdbcType="VARCHAR" />
+    <result column="CANCELORDER" property="cancelorder" jdbcType="VARCHAR" />
+    <result column="GROUPING" property="grouping" jdbcType="VARCHAR" />
+    <result column="DATAMODEL" property="datamodel" jdbcType="VARCHAR" />
+    <result column="LAST_VERSION" property="lastVersion" jdbcType="DECIMAL" />
+    <result column="TREEGRID" property="treegrid" jdbcType="VARCHAR" />
+    <result column="DATA_SRC" property="dataSrc" jdbcType="VARCHAR" />
+    <result column="TREE_EXPAND" property="treeExpand" jdbcType="VARCHAR" />
+    <result column="EDITGRID" property="editgrid" jdbcType="VARCHAR" />
+    <result column="GRIDSAVECLASS" property="gridsaveclass" jdbcType="VARCHAR" />
+    <result column="CANCELPAGE" property="cancelpage" jdbcType="VARCHAR" />
+    <result column="SYNC_TREE" property="syncTree" jdbcType="VARCHAR" />
+    <result column="QRY_CODE" property="qryCode" jdbcType="VARCHAR" />
+    <result column="MONEY_UNIT" property="moneyUnit" jdbcType="VARCHAR" />
+    <result column="PAGE_SIZE" property="pageSize" jdbcType="INTEGER" />
+    <result column="BAK_TABLE" property="bakTable" jdbcType="VARCHAR" />
+    <result column="FORMWIDTH" property="formwidth" jdbcType="VARCHAR" />
+    <result column="FORMHEIGHT" property="formheight" jdbcType="VARCHAR" />
+    <result column="DATAPOPEDOMTYPE" property="datapopedomtype" jdbcType="VARCHAR" />
+    <result column="DATAPOPEDOMCOLUMN" property="datapopedomcolumn" jdbcType="VARCHAR" />
+    <result column="ISCURDEPT" property="iscurdept" jdbcType="VARCHAR" />
+    <result column="DEFINESTR" property="definestr" jdbcType="VARCHAR" />
+    <result column="LISTHTML" property="listhtml" jdbcType="VARCHAR" />
+    <result column="LISTSQL" property="listsql" jdbcType="VARCHAR" />
+    <result column="TABLE_HEAD" property="tableHead" jdbcType="VARCHAR" />
+
+    <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="VARCHAR" />
+    <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="VARCHAR" />
+
+  </resultMap>
+
+
+
+
+
+
+  <sql id="Base_Column_List" >
+    ID, NAME, ENNAME, CLASSNAME, TABLENAME, TABLETYPE, EXTCLASS, UDATE, UNAME, SELECTTYPE,
+    PROPERTY, PARENTFORMID, FORM_TYPE, REFERFORM, HINTSHOWTYPE, CANCELORDER, GROUPING,
+    DATAMODEL, LAST_VERSION, TREEGRID, DATA_SRC, TREE_EXPAND, EDITGRID, GRIDSAVECLASS,
+    CANCELPAGE, SYNC_TREE, QRY_CODE, MONEY_UNIT, PAGE_SIZE, BAK_TABLE, FORMWIDTH, FORMHEIGHT,
+    DATAPOPEDOMTYPE, DATAPOPEDOMCOLUMN, ISCURDEPT,CREATE_BY,CREATE_DATE,UPDATE_BY,UPDATE_DATE
+  </sql>
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from SYS_COM_FORM
+    ORDER BY CLASSNAME
+  </select>
+
+  <select id="selectListByPage2" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from SYS_COM_FORM
+    <where>
+      <if test="parentformid!=null and parentformid!='' " >
+        PARENTFORMID=#{parentformid}
+      </if>
+      <if test="parentformid==null or parentformid=='' " >
+        and 1=2
+      </if>
+
+    </where>
+
+  </select>
+
+  <select id="selectListByPageForm" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+  A.ID
+  , A.NAME
+  , A.ENNAME
+  , A.CLASSNAME
+  , A.TABLENAME
+  , A.TABLETYPE
+  , A.EXTCLASS
+  , A.UDATE
+  , A.UNAME
+  , A.SELECTTYPE
+  , A.PROPERTY
+  , A.PARENTFORMID
+  , A.FORM_TYPE
+  , A.REFERFORM
+  , A.HINTSHOWTYPE
+  , A.CANCELORDER
+  , A.GROUPING
+  , A.DATAMODEL
+  , A.LAST_VERSION
+  , A.TREEGRID
+  , A.DATA_SRC
+  , A.TREE_EXPAND
+  , A.EDITGRID
+  , A.GRIDSAVECLASS
+  , A.CANCELPAGE
+  , A.SYNC_TREE
+  , A.QRY_CODE
+  , A.MONEY_UNIT
+  , A.PAGE_SIZE
+  , A.BAK_TABLE
+  , A.FORMWIDTH
+  , A.FORMHEIGHT
+  , A.DATAPOPEDOMTYPE
+  , A.DATAPOPEDOMCOLUMN
+  , A.ISCURDEPT
+  , A2.ACCOUNTNAME CREATE_BY
+  , A.CREATE_DATE
+  , A3.ACCOUNTNAME UPDATE_BY
+  , A.UPDATE_DATE
+FROM
+  SYS_COM_FORM A
+LEFT JOIN SYS_USER A2 ON A2.ID=A.CREATE_BY
+LEFT JOIN SYS_USER A3 ON A3.ID=A.UPDATE_BY
+
+  </select>
+</mapper>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.SysDicTypeMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.SysDicType" >
+    <result column="typeid" property="typeid" jdbcType="VARCHAR" />
+    <result column="typename" property="typename" jdbcType="VARCHAR" />
+    <result column="parentid" property="parentid" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectListByPage" parameterType="spring.entity.SysDicType" resultMap="BaseResultMap"  >
+    SELECT *FROM SYS_DIC_TYPE A
+    <where>
+    <if test="typeid!=null and typeid!=''">
+      A.TYPEID =#{typeid}
+    </if>
+    <if test="typename!=null and typename!=''">
+      A.TYPENAME LIKE  CONCAT('%',#{typename},'%')
+    </if>
+    <if test="parentid!=null and parentid!=''">
+      A.PARENTID =#{parentid}
+    </if>
+    </where>
+  </select>
+</mapper>

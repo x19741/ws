@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.SysUserMapper">
+    <resultMap id="BaseResultMap" type="spring.entity.SysUser">
+        <id column="ID" property="id" jdbcType="VARCHAR"/>
+        <result column="CREATE_BY" property="createBy" jdbcType="VARCHAR"/>
+        <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="UPDATE_BY" property="updateBy" jdbcType="VARCHAR"/>
+        <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP"/>
+        <result column="USERNAME" property="username" jdbcType="VARCHAR"/>
+        <result column="ACCOUNTNAME" property="accountname" jdbcType="VARCHAR"/>
+        <result column="REAL_NAME" property="realName" jdbcType="VARCHAR"/>
+        <result column="PASSWORD" property="password" jdbcType="VARCHAR"/>
+        <result column="PHOTO" property="photo" jdbcType="VARCHAR"/>
+        <result column="AGE" property="age" jdbcType="INTEGER"/>
+        <result column="SEX" property="sex" jdbcType="VARCHAR"/>
+        <result column="PHONE" property="phone" jdbcType="VARCHAR"/>
+        <result column="MAIL" property="mail" jdbcType="VARCHAR"/>
+        <result column="BIRTHDAY" property="birthday" jdbcType="VARCHAR"/>
+        <result column="REMARK" property="remark" jdbcType="VARCHAR"/>
+        <result column="POSITION_ID" property="positionId" jdbcType="VARCHAR"/>
+        <result column="DEPARTMENT_ID" property="departmentId" jdbcType="VARCHAR"/>
+        <result column="COLLEGE_ID" property="collegeId" jdbcType="VARCHAR"/>
+        <result column="COUNTRY" property="country" jdbcType="VARCHAR"/>
+        <result column="WX_BIND_ONE" property="wxBindOne" jdbcType="VARCHAR"/>
+        <result column="WX_BIND_TWO" property="wxBindTwo" jdbcType="VARCHAR"/>
+        <result column="DEL_FLAG" property="delFlag" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, USERNAME, ACCOUNTNAME, REAL_NAME,
+    PASSWORD, PHOTO, AGE, SEX, PHONE, MAIL, BIRTHDAY, REMARK, POSITION_ID, DEPARTMENT_ID,
+    COLLEGE_ID, COUNTRY, WX_BIND_ONE, WX_BIND_TWO, DEL_FLAG
+  </sql>
+
+    <select id="selectListByPage" parameterType="spring.entity.SysUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM SYS_USER
+        <where>
+            <if test="username!=null and username!=''">
+                username = #{username,jdbcType=VARCHAR}
+            </if>
+
+            <if test="accountname!=null and accountname!=''">
+                and accountname like concat('%',#{accountname},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectListByPageForm" parameterType="spring.entity.SysUser" resultMap="BaseResultMap">
+        SELECT
+        A.ID
+        , A2.ACCOUNTNAME CREATE_BY
+        , A.CREATE_DATE
+        , A3.ACCOUNTNAME UPDATE_BY
+        , A.UPDATE_DATE
+        , A.USERNAME
+        , A.ACCOUNTNAME
+        , A.REAL_NAME
+        , A.PASSWORD
+        , A.PHOTO
+        , A.AGE
+        , A.SEX
+        , A.PHONE
+        , A.MAIL
+        , A.BIRTHDAY
+        , A.REMARK
+        , A.POSITION_ID
+        , A.DEPARTMENT_ID
+        , A.COLLEGE_ID
+        , A.COUNTRY
+        , A.WX_BIND_ONE
+        , A.WX_BIND_TWO
+        , A.DEL_FLAG
+        FROM
+        SYS_USER A
+        LEFT JOIN SYS_USER A2 ON A2.ID=A.CREATE_BY
+        LEFT JOIN SYS_USER A3 ON A3.ID=A.UPDATE_BY
+        <where>
+            <if test="username!=null and username!=''">
+                A.USERNAME = #{username}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectByUsername" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        FROM SYS_USER
+        <where>
+            <if test="username!=null and username!=''">
+                USERNAME = #{username}
+            </if>
+        </where>
+    </select>
+
+    <update id="updateOpenidNull">
+        UPDATE SYS_USER SET WX_BIND_ONE is NULL
+        WHERE WX_BIND_ONE=#{openid}
+    </update>
+
+</mapper>
+

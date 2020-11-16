@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsVisitCountryAddressMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.WsVisitCountryAddress" >
+    <constructor >
+      <idArg column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="STATUS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="MAINFORMID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="INBOUND_TYPE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CITY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="STOP_TYPE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="INVITER_UNIT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="VISE_MODE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ADDRESS_TYPE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="INVITER_USER" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="VISE_TYPE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="INBOUND_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="STOP_DAY_NUM" jdbcType="DECIMAL" javaType="java.math.BigDecimal" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, STATUS, MAINFORMID, ADDRESS, 
+    INBOUND_TYPE, CITY, STOP_TYPE, INVITER_UNIT, VISE_MODE, ADDRESS_TYPE, INVITER_USER, 
+    VISE_TYPE, INBOUND_DATE, STOP_DAY_NUM
+  </sql>
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    FROM WS_VISIT_COUNTRY_ADDRESS
+    <where>
+      <if test="mainformid!=null and mainformid!=''">
+        MAINFORMID =#{mainformid}
+      </if>
+
+    </where>
+    order by ID
+  </select>
+</mapper>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsAgreementMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.WsAgreement" >
+    <constructor >
+      <idArg column="ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="CREATE_BY" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="CREATE_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="UPDATE_BY" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="UPDATE_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="TITLE" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="AGREEMENT_TYPE" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="USER_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="USER_DEPT" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="START_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="END_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="IMPORTANCE_TYPE" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="ATTACH_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="STATUS" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="CONTENT" javaType="java.lang.String" jdbcType="CLOB" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, TITLE, AGREEMENT_TYPE, USER_ID,
+    USER_DEPT, START_DATE, END_DATE, IMPORTANCE_TYPE, ATTACH_ID, STATUS,CONTENT
+  </sql>
+
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    FROM WS_AGREEMENT
+    <where>
+      <if test="searchDateStart!=null and searchDateStart!=''">
+        AND UPDATE_DATE &gt;= to_date(#{searchDateStart},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+      <if test="searchDateEnd!=null and searchDateEnd!=''">
+        AND UPDATE_DATE &lt;= to_date(#{searchDateEnd},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+    </where>
+  </select>
+  <select id="selectListByPageForm" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    a.ID,
+    a2.accountname CREATE_BY,
+    a.CREATE_DATE,
+    a3.accountname UPDATE_BY,
+    a.UPDATE_DATE,
+    a.TITLE,
+    a4.dic_name AGREEMENT_TYPE,
+    a.USER_ID,
+    a5.name USER_DEPT,
+    a.START_DATE,
+    a.END_DATE,
+    a.IMPORTANCE_TYPE,
+    a.ATTACH_ID,
+    a.STATUS,
+    a.CONTENT
+    FROM
+    WS_AGREEMENT a
+    LEFT JOIN sys_user a2 ON a2.id = a.create_by
+    LEFT JOIN sys_user a3 ON a3.id = a.update_by
+    left join sys_dic a4 on a4.dic_type ='合作协议的类型' and a4.dic_value =a.AGREEMENT_TYPE
+    left join SYS_DEPARTMENT a5 on a5.id =a.USER_DEPT
+    <where>
+      <if test="searchDateStart!=null and searchDateStart!=''">
+        AND a.START_DATE &gt;= to_date(#{searchDateStart},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+      <if test="searchDateEnd!=null and searchDateEnd!=''">
+        AND a.END_DATE &lt;= to_date(#{searchDateEnd},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+    </where>
+  </select>
+
+</mapper>

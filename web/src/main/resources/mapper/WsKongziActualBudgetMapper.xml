@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsKongziActualBudgetMapper">
+    <resultMap id="BaseResultMap" type="spring.entity.WsKongziActualBudget">
+        <constructor>
+            <arg column="ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="STATUS" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="SERIAL_CODE" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="TITLE" jdbcType="VARCHAR" javaType="java.lang.String" />
+            <arg column="TYPE" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="TARGET" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="CONTENT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="NNT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="PRO_THRONG" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="START_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="END_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+            <arg column="DISBURSE_DETAIL" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="DISBURSE_AMOUNT" jdbcType="DECIMAL" javaType="java.math.BigDecimal"/>
+            <arg column="AMOUNT" jdbcType="DECIMAL" javaType="java.math.BigDecimal"/>
+            <arg column="EDIT_REASON" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="NEW_PRO" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="NEW_PRO_AMOUNT" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="NEW_PRO_REASON" jdbcType="VARCHAR" javaType="java.lang.String"/>
+            <arg column="ATTACH_ID" jdbcType="VARCHAR" javaType="java.lang.String"/>
+        </constructor>
+    </resultMap>
+    <sql id="Base_Column_List">
+     ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE,STATUS, SERIAL_CODE,TITLE, TYPE,TARGET, CONTENT, ADDRESS,NNT, PRO_THRONG, START_DATE,
+      END_DATE, DISBURSE_DETAIL, DISBURSE_AMOUNT, AMOUNT, EDIT_REASON, NEW_PRO,NEW_PRO_AMOUNT, NEW_PRO_REASON, ATTACH_ID
+  </sql>
+    <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        FROM WS_KONGZI_ACTUAL_BUDGET
+        <where>
+            <if test="title!=null and title!=''">
+                TITLE LIKE concat( concat( '%',#{title} ),'%' )
+            </if>
+            <if test="target!=null and target!=''">
+                AND TARGET LIKE concat( concat( '%',#{target} ),'%' )
+            </if>
+            <if test="startDate!=null">
+                AND START_DATE &gt;= to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+            <if test="endDate!=null">
+                AND END_DATE &lt;= to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+            </if>
+        </where>
+        ORDER by ID
+    </select>
+</mapper>

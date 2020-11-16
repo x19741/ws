@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsNoticeMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.WsNotice" >
+    <constructor >
+      <idArg column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="ORDER_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="TITLE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ISSUE_STATUS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ATTACH_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="IMAGE_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CONTENT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="NOTICE_TYPE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="MODEL_TYPE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ISSUE_DEPT" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, ORDER_ID, TITLE, ISSUE_STATUS,
+    ATTACH_ID, IMAGE_ID, CONTENT, NOTICE_TYPE, MODEL_TYPE, ISSUE_DEPT
+  </sql>
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    FROM WS_NOTICE
+    <where>
+      <if test="title!=null and title!=''">
+        TITLE LIKE concat( concat( '%',#{title} ),'%' )
+      </if>
+      <if test="presentType!=null and presentType!=''">
+        a.NOTICE_TYPE LIKE concat( concat( '%',#{presentType} ),'%' )
+      </if>
+      <if test="searchDateStart!=null and searchDateStart!=''">
+        AND UPDATE_DATE &gt;= to_date(#{searchDateStart},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+      <if test="searchDateEnd!=null and searchDateEnd!=''">
+        AND UPDATE_DATE &lt;= to_date(#{searchDateEnd},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+    </where>
+    ORDER by ID
+  </select>
+
+  <select id="selectListByPageForm" parameterType="java.lang.String" resultMap="BaseResultMap">
+    SELECT
+    a.ID,
+    a2.accountname CREATE_BY,
+    a.CREATE_DATE,
+    a3.accountname UPDATE_BY,
+    a.UPDATE_DATE,
+    a.ORDER_ID,
+    a.TITLE,
+    a.ISSUE_STATUS,
+    a.ATTACH_ID,
+    a.IMAGE_ID,
+    a.CONTENT,
+    a4.dic_name  NOTICE_TYPE,
+    a.MODEL_TYPE,
+    a5.name ISSUE_DEPT
+    FROM
+    WS_NOTICE a
+    LEFT JOIN sys_user a2 ON a2.id = a.create_by
+    LEFT JOIN sys_user a3 ON a3.id = a.update_by
+    left join sys_dic a4 on a4.dic_type ='通知公告的类型' and a4.dic_value =a.NOTICE_TYPE
+    left join SYS_DEPARTMENT a5 on a5.id =a.ISSUE_DEPT
+    <where>
+      <if test="title!=null and title!=''">
+        a.TITLE LIKE concat( concat( '%',#{title} ),'%' )
+      </if>
+      <if test="noticeType!=null and noticeType!=''">
+        AND a.NOTICE_TYPE LIKE concat( concat( '%',#{noticeType} ),'%' )
+      </if>
+      <if test="searchDateStart!=null and searchDateStart!=''">
+        AND a.UPDATE_DATE &gt;= to_date(#{searchDateStart},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+      <if test="searchDateEnd!=null and searchDateEnd!=''">
+        AND a.UPDATE_DATE &lt;= to_date(#{searchDateEnd},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+
+    </where>
+    ORDER by ID
+  </select>
+</mapper>

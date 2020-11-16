@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsWzLectureMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.WsWzLecture" >
+    <constructor >
+      <idArg column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="STATUS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PRO_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PRO_DEPT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PRO_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="PRO_DEAN" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SUBJECT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="APPLE_USER" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="APPLE_DEPT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="APPLE_PHONE_CALL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="APPLE_PHONE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="APPLE_EMAIL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="FAX" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PRO_CONTENT" jdbcType="CLOB" javaType="java.lang.String" />
+      <arg column="PRO_PLAN" jdbcType="CLOB" javaType="java.lang.String" />
+      <arg column="UNDERGO_AMOUNT" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="FUND_AMOUNT" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="EXPERT_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EXPERT_NAME_ENGLISH" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EXPERT_SEX" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EXPERT_DAY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EXPERT_COUNTRY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EXPERT_DEPT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EXPERT_SPECIALTY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EXPERT_UNIT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EXPERT_ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EXPERT_EMAIL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EXPERT_CALL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EXPERT_GAX" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EXPERT_NUM_DAY" javaType="java.math.BigDecimal" jdbcType="DECIMAL" />
+      <arg column="EXPERT_CONTENT" jdbcType="CLOB" javaType="java.lang.String" />
+      <arg column="EXPERT_ICON" jdbcType="CLOB" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_BY, CREATE_DATE,
+      UPDATE_BY, UPDATE_DATE, STATUS,
+      PRO_NAME, PRO_DEPT, PRO_DATE,
+      PRO_DEAN, SUBJECT, APPLE_USER,
+      APPLE_DEPT, APPLE_PHONE_CALL, APPLE_PHONE,
+      APPLE_EMAIL, FAX, PRO_CONTENT,PRO_PLAN, UNDERGO_AMOUNT,
+      FUND_AMOUNT, EXPERT_NAME, EXPERT_NAME_ENGLISH,
+      EXPERT_SEX, EXPERT_DAY, EXPERT_COUNTRY,
+      EXPERT_DEPT, EXPERT_SPECIALTY, EXPERT_UNIT,
+      EXPERT_ADDRESS, EXPERT_EMAIL, EXPERT_CALL,
+      EXPERT_GAX, EXPERT_NUM_DAY, EXPERT_CONTENT,EXPERT_ICON
+  </sql>
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    FROM WS_WZ_LECTURE
+    <where>
+      <if test="expertName!=null and expertName!=''">
+        EXPERT_NAME LIKE concat( concat( '%',#{expertName} ),'%' )
+      </if>
+      <if test="proName!=null and proName!=''">
+        AND PRO_NAME LIKE concat( concat( '%',#{proName} ),'%' )
+      </if>
+      <if test="proDept!=null and proDept!=''">
+        AND PRO_DEPT LIKE concat( concat( '%',#{proDept} ),'%' )
+      </if>
+      <if test="applyDateStart!=null">
+        AND PRO_DATE &gt;= to_date(#{applyDateStart},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+      <if test="applyDateEnd!=null">
+        AND PRO_DATE &lt;= to_date(#{applyDateEnd},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+    </where>
+    ORDER by ID
+  </select>
+
+
+</mapper>

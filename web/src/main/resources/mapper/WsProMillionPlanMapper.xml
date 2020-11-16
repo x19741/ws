@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsProMillionPlanMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.WsProMillionPlan" >
+    <constructor >
+      <arg column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="STATUS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="USERNAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SEX" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="BIRTHDAY" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="BIRTHPLACE_NATION" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="BIRTHPLACE_PROVINCE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="BIRTHPLACE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CADRE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="POLITICS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PHONE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="EMAIL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="COLLEGE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="GRADE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CLASS1" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PROFESSION" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PRO" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PRO_DATE1" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="PRO_DATE2" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="PRO_DATE3" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="PRO_DATE4" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="PRO_DATE5" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="PRO_DATE6" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="PRO_DATE7" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="APPLY_OPINION" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="APPLY_USER" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="APPLY_USER_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="DEAN_OPINION" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="DEAN" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="DEAN_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="SUM_SCHOOL_OPINION" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SUM_SCHOOL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SUM_SCHOOL_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="DAY_NUM" jdbcType="INTEGER" javaType="java.lang.Integer" />
+
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_BY, CREATE_DATE,UPDATE_BY, UPDATE_DATE, STATUS,USERNAME, SEX, BIRTHDAY,BIRTHPLACE_NATION, BIRTHPLACE_PROVINCE, BIRTHPLACE,
+      CADRE, POLITICS, PHONE, EMAIL, COLLEGE, GRADE,CLASS1, PROFESSION, PRO,PRO_DATE1, PRO_DATE2, PRO_DATE3,
+      PRO_DATE4, PRO_DATE5, PRO_DATE6, PRO_DATE7, APPLY_OPINION, APPLY_USER,APPLY_USER_DATE, DEAN_OPINION, DEAN,
+      DEAN_DATE, SUM_SCHOOL_OPINION, SUM_SCHOOL, SUM_SCHOOL_DATE,DAY_NUM
+  </sql>
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    FROM WS_PRO_MILLION_PLAN
+    <where>
+        <if test="username!=null and username!=''">
+            USERNAME LIKE concat( concat( '%', #{username} ), '%' )
+        </if>
+        <if test="sex!=null and sex!=''">
+            AND SEX   LIKE concat( concat( '%', #{sex} ), '%' )
+        </if>
+        <if test="grade!=null and grade!=''">
+            AND GRADE LIKE concat( concat( '%', #{grade} ), '%' )
+        </if>
+        <if test="profession!=null and profession!=''">
+            AND PROFESSION  LIKE concat( concat( '%', #{profession} ), '%' )
+        </if>
+        <if test="pro!=null and pro!=''">
+            AND PRO  LIKE concat( concat( '%', #{pro} ), '%' )
+        </if>
+
+    </where>
+      ORDER by ID
+  </select>
+</mapper>

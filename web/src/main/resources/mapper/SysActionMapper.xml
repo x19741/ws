@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.SysActionMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.SysAction" >
+    <id column="actionid" property="actionid" jdbcType="INTEGER" />
+    <result column="action_name" property="actionName" jdbcType="VARCHAR" />
+    <result column="action_menuid" property="actionMenuid" jdbcType="VARCHAR" />
+    <result column="action_code" property="actionCode" jdbcType="VARCHAR" />
+    <result column="viewmode" property="viewmode" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    actionid, action_name, action_menuid, action_code, viewmode
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_action
+    where actionid = #{actionid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from sys_action
+    where actionid = #{actionid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="spring.entity.SysAction" >
+    insert into sys_action (actionid, action_name, action_menuid, 
+      action_code, viewmode)
+    values (#{actionid,jdbcType=INTEGER}, #{actionName,jdbcType=VARCHAR}, #{actionMenuid,jdbcType=VARCHAR}, 
+      #{actionCode,jdbcType=VARCHAR}, #{viewmode,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="spring.entity.SysAction" >
+    insert into sys_action
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="actionid != null" >
+        actionid,
+      </if>
+      <if test="actionName != null" >
+        action_name,
+      </if>
+      <if test="actionMenuid != null" >
+        action_menuid,
+      </if>
+      <if test="actionCode != null" >
+        action_code,
+      </if>
+      <if test="viewmode != null" >
+        viewmode,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="actionid != null" >
+        #{actionid,jdbcType=INTEGER},
+      </if>
+      <if test="actionName != null" >
+        #{actionName,jdbcType=VARCHAR},
+      </if>
+      <if test="actionMenuid != null" >
+        #{actionMenuid,jdbcType=VARCHAR},
+      </if>
+      <if test="actionCode != null" >
+        #{actionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="viewmode != null" >
+        #{viewmode,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="spring.entity.SysAction" >
+    update sys_action
+    <set >
+      <if test="actionName != null" >
+        action_name = #{actionName,jdbcType=VARCHAR},
+      </if>
+      <if test="actionMenuid != null" >
+        action_menuid = #{actionMenuid,jdbcType=VARCHAR},
+      </if>
+      <if test="actionCode != null" >
+        action_code = #{actionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="viewmode != null" >
+        viewmode = #{viewmode,jdbcType=CHAR},
+      </if>
+    </set>
+    where actionid = #{actionid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="spring.entity.SysAction" >
+    update sys_action
+    set action_name = #{actionName,jdbcType=VARCHAR},
+      action_menuid = #{actionMenuid,jdbcType=VARCHAR},
+      action_code = #{actionCode,jdbcType=VARCHAR},
+      viewmode = #{viewmode,jdbcType=CHAR}
+    where actionid = #{actionid,jdbcType=INTEGER}
+  </update>
+</mapper>

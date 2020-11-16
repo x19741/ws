@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.mapper.WsKongziVolunteerMapper">
+  <resultMap id="BaseResultMap" type="spring.entity.WsKongziVolunteer">
+    <constructor>
+      <idArg column="ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="CREATE_BY" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="CREATE_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="UPDATE_BY" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="UPDATE_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="STATUS" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="USERNAME" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="SEX" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="BIRTHDAY" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="NATION" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="CADRE" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="POLITICS" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="COLLEGE" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="CLASS1" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="ICON" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="STUDENT_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="SPECIALITY" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="EMAIL" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="PHONE" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE, STATUS, USERNAME, SEX, BIRTHDAY, 
+    NATION, CADRE, POLITICS, COLLEGE, CLASS1, ICON, STUDENT_CODE, SPECIALITY, EMAIL, PHONE
+  </sql>
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    FROM WS_KONGZI_VOLUNTEER
+    <where>
+      <if test="username!=null and username!=''">
+        USERNAME LIKE concat( concat( '%',#{username} ),'%' )
+      </if>
+      <if test="birthday!=null">
+        AND BIRTHDAY = to_date(#{birthday},'yyyy-mm-dd hh24:mi:ss')
+      </if>
+      <if test="college!=null and college!=''">
+        AND COLLEGE LIKE concat( concat( '%',#{college} ),'%' )
+      </if>
+      <if test="class1!=null and class1!=''">
+        AND CLASS1 LIKE concat( concat( '%',#{class1} ),'%' )
+      </if>
+    </where>
+    ORDER by ID
+  </select>
+</mapper>

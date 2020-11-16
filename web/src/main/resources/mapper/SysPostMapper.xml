@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.SysPostMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.SysPost" >
+    <constructor >
+      <arg column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="STATUS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ORDER_ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, CREATE_DATE, UPDATE_DATE,UPDATE_BY, CREATE_BY, STATUS,ORDER_ID, NAME
+  </sql>
+  <select id="selectListByPage" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List"/>
+    from SYS_POST
+    order BY ORDER_ID
+  </select>
+  <select id="selectListByPageForm" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT
+        a1.id
+        ,a1.create_date
+        ,a1.update_date
+        ,a2.accountname create_by
+        ,a3.accountname update_by
+        ,a1.status
+        ,a1.ORDER_ID
+        ,a1.name
+        FROM
+        sys_post  a1
+        LEFT JOIN  sys_user a2 ON a1.create_by=a2.id
+        LEFT JOIN sys_user a3 ON a1.update_by = a3.id
+        order BY a1.ORDER_ID
+    </select>
+</mapper>

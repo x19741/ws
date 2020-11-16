@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="spring.mapper.WsExchangeActivitiMapper" >
+  <resultMap id="BaseResultMap" type="spring.entity.WsExchangeActiviti" >
+    <constructor >
+      <arg column="ID" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CREATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="UPDATE_BY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="UPDATE_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="STATUS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="REPLACE_APPLY_UNIT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="APPLY_UNIT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="APPLY_USER" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PHONE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="PHONE_CALL" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="TITLE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="TITLE_ENGLISH" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ACTIVITY_START_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="ACTIVITY_END_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="APPLY_DATE" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="ACTIVITY_TYPE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ACTIVITY_FORM" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ORG_ADDRESS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ORG_NAME" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ORG_CONTINENT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="IS_CONSULATE" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="IS_SENSITIVITY" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="ORG_ATTACH" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="MAINLAND_NUM" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="TAIWAN_NUM" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="HONGKONG_NUM" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="FOREIGN_NUM" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SUM_NUM" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="IS_SCHOOL_USERS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="SCHOOL_USERS" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="NEWS_UNIT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="CONTENT" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="AMOUNT_PUR" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="APPLY_OPINION" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="AMOUNT_SOU" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="AMOUNT_ELSE" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_BY, CREATE_DATE,UPDATE_BY, UPDATE_DATE, STATUS,REPLACE_APPLY_UNIT, APPLY_UNIT, APPLY_USER,PHONE, PHONE_CALL, TITLE,
+      TITLE_ENGLISH, ADDRESS, ACTIVITY_START_DATE,ACTIVITY_END_DATE, APPLY_DATE, ACTIVITY_TYPE,ACTIVITY_FORM, ORG_ADDRESS, ORG_NAME,
+      ORG_CONTINENT, IS_CONSULATE, IS_SENSITIVITY,ORG_ATTACH, MAINLAND_NUM, TAIWAN_NUM,
+      HONGKONG_NUM, FOREIGN_NUM, SUM_NUM,IS_SCHOOL_USERS,SCHOOL_USERS, NEWS_UNIT, CONTENT,
+      AMOUNT_PUR, APPLY_OPINION, AMOUNT_SOU,AMOUNT_ELSE
+  </sql>
+  <select id="selectListByPage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select a.* FROM WS_EXCHANGE_ACTIVITI a
+    <where>
+      <if test="applyDate!=null and applyDate!=''">
+        TO_CHAR(a.APPLY_DATE,'yyyy-mm-dd')= TO_CHAR(#{applyDate},'yyyy-mm-dd')
+      </if>
+      <if test="applyUser!=null and applyUser!=''">
+        and a.APPLY_USER =#{applyUser}
+      </if>
+      <if test="replaceApplyUnit!=null and replaceApplyUnit!=''">
+        and a.REPLACE_APPLY_UNIT=#{replaceApplyUnit}
+      </if>
+      <if test="orgName!=null and orgName!=''">
+        and a.ORG_NAME=LIKE concat( concat( '%',#{orgName} ),'%' )
+      </if>
+      <if test="orgContinent!=null and orgContinent!=''">
+        and a.ORG_CONTINENT=LIKE concat( concat( '%',#{orgContinent} ),'%' )
+      </if>
+    </where>
+    order by a.id
+  </select>
+
+</mapper>
